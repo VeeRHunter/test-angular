@@ -15,12 +15,17 @@ import { jqxSwitchButtonComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular
 import { jqxTabsComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxtabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialShareModule } from './materialshare.module';
+
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialShareModule,
   ],
   exports: [
     jqxGridComponent, jqxInputComponent,
