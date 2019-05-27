@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { jqxMenuComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxmenu';
+import { MatMenuTrigger } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -8,43 +9,42 @@ import { jqxMenuComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxmenu
 })
 export class AppComponent {
   title = 'test-angular';
-
-  @ViewChild('jqxMenu') jqxMenu: jqxMenuComponent;
-
-  private customeMenu = [
-    {
-      title: 'test 1',
-    },
-    {
-      title: 'test 2',
-    },
-    {
-      title: 'test 3',
-    },
-    {
-      title: 'test 4',
-    },
-    {
-      title: 'test 5',
-    }
+  items = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' }
   ];
 
-  isRightClick(event: any): boolean {
-    let rightclick;
-    if (!event) { event = window.event; }
-    if (event.which) { rightclick = (event.which === 3); } else if (event.button) { rightclick = (event.button === 2); }
-    return rightclick;
-  }
-  contextmenuMenu(): boolean {
-    return false;
-  }
-  mousedown(event: any): boolean {
-    const rightClick = this.isRightClick(event) || jqx.mobile.isTouchDevice();
-    if (rightClick) {
-      // tslint:disable-next-line:radix
-      this.jqxMenu.open(parseInt(event.clientX), parseInt(event.clientY));
-      return false;
-    }
+  customMenu = [
+    { name: 'Menu 1' },
+    { name: 'Menu 2' },
+    { name: 'Menu 3' }
+  ];
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu: MatMenuTrigger;
+
+  contextMenuPosition = { x: '0px', y: '0px' };
+
+  onContextMenu(event: MouseEvent, item: Item) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    // tslint:disable-next-line:object-literal-key-quotes
+    this.contextMenu.menuData = { 'item': item };
+    this.contextMenu.openMenu();
   }
 
+  onContextMenuAction1(item: Item) {
+    alert(`Click on Action 1 for ${item.name}`);
+  }
+
+  onContextMenuAction2(item: Item) {
+    alert(`Click on Action 2 for ${item.name}`);
+  }
+}
+
+export interface Item {
+  id: number;
+  name: string;
 }
